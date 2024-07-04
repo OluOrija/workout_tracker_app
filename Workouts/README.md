@@ -3,11 +3,13 @@
 
 1. Setup and intialising the project
 - ```Code 
-npx create-expo-app@latest Workouts -t blank 
-```
+npx create-expo-app@latest Workouts -t blank ```
 - Uploaded dummy data to assets folder
 - setup jsconfig.json file
 
 2. Importing and Displaying data
 - Imported data from json file
 - Styled the display with Stylesheet css
+
+3. FlatLists and Custom Components
+- Changed App.js to consumer the ExerciseListItem custom component and passed in the exercises array and the data object
