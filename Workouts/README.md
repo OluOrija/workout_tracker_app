@@ -7,3 +7,7 @@ npx create-expo-app@latest Workouts -t blank
 ```
 - Uploaded dummy data to assets folder
 - setup jsconfig.json file
+
+2. Importing and Displaying data
+- Imported data from json file
+- Styled the display with Stylesheet css
