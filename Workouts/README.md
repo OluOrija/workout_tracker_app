@@ -13,3 +13,10 @@ npx create-expo-app@latest Workouts -t blank ```
 
 3. FlatLists and Custom Components
 - Changed App.js to consumer the ExerciseListItem custom component and passed in the exercises array and the data object
+
+4. Use Expo Router to setup the Navigation 
+- Setup - https://docs.expo.dev/router/installation/#install-dependencies
+
+5. Exercise Details Implementation
+- Setting up file based routing with the app/index.js file
+- Getting to grips with the use of square brackets for dynamic paths
