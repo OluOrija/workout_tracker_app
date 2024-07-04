@@ -2,7 +2,7 @@
 • ~~Setup the project with Expo SDK50 ~~
 • ~~Use dummy data ~~
 • ~~Render a list of exercises ~~
-• Use Expo Router to setup the Navigation 
+• ~~Use Expo Router to setup the Navigation ~~
 • Create the Exercise details page
 
 2. Exercises GraphQL API
