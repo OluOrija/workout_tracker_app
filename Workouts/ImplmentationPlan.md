@@ -3,7 +3,7 @@
 • ~~Use dummy data ~~
 • ~~Render a list of exercises ~~
 • ~~Use Expo Router to setup the Navigation ~~
-• Create the Exercise details page
+• ~~Create the Exercise details page~~
 
 2. Exercises GraphQL API
 • Exercises API: https://api-ninjas.com/api/exercises
