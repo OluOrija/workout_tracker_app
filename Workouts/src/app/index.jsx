@@ -4,7 +4,9 @@ import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-nativ
 import ExerciseListItem from '../components/ExerciseListItem';
 import { gql, useQuery } from '@apollo/client';
 // const url = 'http://localhost:4000/graphql'
-const url = 'http://127.0.0.1:4000/graphql'
+//const url = 'http://192.168.112.1:4000/graphql'
+const url = 'http://localhost:4000/graphql'
+
 
 
 const GET_EXERCISES = gql`
@@ -31,6 +33,7 @@ export default function ExercisesScreen() {
   }
 
   if(error){
+    console.log(error);
     return <Text>Error: {error.message}</Text>;
   }
   //const exercise = exercises[1];
