@@ -29,7 +29,7 @@ const RootQuery = new GraphQLObjectType({
         offset: { type: GraphQLInt },
         limit: { type: GraphQLInt },
       },
-      resolve(parent, args) {
+      async resolve(parent, args) {
         let url = 'https://api.api-ninjas.com/v1/exercises';
         const queryParameters = [];
 
@@ -44,14 +44,15 @@ const RootQuery = new GraphQLObjectType({
           url += `?${queryParameters.join('&')}`;
         }
 
-        return axios
-          .get(url, {
-            headers: { 'X-Api-Key': process.env.API_KEY },
-          })
-          .then((response) => response.data)
-          .catch((error) => {
-            throw new Error(error);
-          });
+        try {
+          const response = await axios
+            .get(url, {
+              headers: { 'X-Api-Key': process.env.API_KEY },
+            });
+          return response.data;
+        } catch (error) {
+          throw new Error(error);
+        }
       },
     },
   },

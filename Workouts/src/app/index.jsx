@@ -1,11 +1,40 @@
 import { StatusBar } from 'expo-status-bar';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
-import exercises from '../../assets/data/exercises.json';
+import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-native';
+//import exercises from '../../assets/data/exercises.json';
 import ExerciseListItem from '../components/ExerciseListItem';
+import { gql, useQuery } from '@apollo/client';
+// const url = 'http://localhost:4000/graphql'
+const url = 'http://127.0.0.1:4000/graphql'
 
 
-export default function App() {
-  const exercise = exercises[1];
+const GET_EXERCISES = gql`
+  query GetExercises($name: String, $type: String, $muscle: String, $difficulty: String, $limit: Int) {
+    exercises(name: $name, type: $type, muscle: $muscle, difficulty: $difficulty, limit: $limit) {
+      name
+      type
+      muscle
+      equipment
+      difficulty
+      instructions
+    }
+  }
+`;
+
+
+export default function ExercisesScreen() {
+  const { loading, error, data } = useQuery(GET_EXERCISES, {
+    variables: { name: "push-up", type: "strength", muscle: "chest", difficulty: "beginner", limit: 5 },
+  });
+
+  if(loading){
+    return <ActivityIndicator/>
+  }
+
+  if(error){
+    return <Text>Error: {error.message}</Text>;
+  }
+  //const exercise = exercises[1];
+  const exercises = data?.exercises;
 
   return (
     <View style={styles.container}>
