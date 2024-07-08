@@ -8,7 +8,7 @@
 2. ## Exercises GraphQL API ##
     ~~- Exercises API: https://api-ninjas.com/api/exercises ~~
     ~~- Use IBM StepZen to create a GraphQL API~~
-    - Use React Query to query the API
+    ~~ - Use React Query to query the API ~~
 
 3. ## Workout Logger Features ##
     - Add a screen to log an exercise 

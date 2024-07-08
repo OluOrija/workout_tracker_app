@@ -20,3 +20,10 @@ npx create-expo-app@latest Workouts -t blank ```
 5. Exercise Details Implementation
 - Setting up file based routing with the app/index.js file
 - Getting to grips with the use of square brackets for dynamic paths
+
+6. Exercises Graphql API
+- Setup the IBM API Connect which has replaced stepzen - Read getting started guide after setup
+- cd to /api folder, run stepzen start to start api. (Follow getting started to authenticate cli)
+- Fixed graphql-request issue by downgrading
+- Had issues using .env files (To be revisited at a later point)
+- Updated the exercise details page to fetch data based on the exercise name passed, and this is cached using the exercise name as the api does not provide and $id field
