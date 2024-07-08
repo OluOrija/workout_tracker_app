@@ -7,7 +7,7 @@
 
 2. ## Exercises GraphQL API ##
     ~~- Exercises API: https://api-ninjas.com/api/exercises ~~
-    ~~- Use IBM StepZen to create a GraphQL API: StepZen is broken, so I implemented a local GraphQL API with the help of chatgpt~~
+    ~~- Use IBM StepZen to create a GraphQL API~~
     - Use React Query to query the API
 
 3. ## Workout Logger Features ##
