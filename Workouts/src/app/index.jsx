@@ -1,9 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-native';
-//import exercises from '../../assets/data/exercises.json';
 import ExerciseListItem from '../components/ExerciseListItem';
 import { useQuery } from '@tanstack/react-query';
-import { gql, request } from 'graphql-request'
+import { gql } from 'graphql-request'
+import client from '../graphqlClient';
+
 
 const exercisesQuery = gql`
   query exercises($muscle: String, $name: String) {
@@ -14,15 +15,11 @@ const exercisesQuery = gql`
 } 
 `;
 
-const url = 'https://btncibogo.us-east-a.ibm.stepzen.net/api/exercises/graphql'
-
 
 export default function ExercisesScreen() {
   const {data, isLoading, error} = useQuery({
     queryKey: ['exercises'],
-    queryFn: async () => {
-      return request({url, document: exercisesQuery, requestHeaders: {"Authorization": "apikey btncibogo::local.net+1000::ac6a41cf812d9aeaf7981d590dd9ed3bab11a7cf3203ea62b14393196fde699b"}});
-    },
+    queryFn: () => client.request(exercisesQuery),
   });
 
   if(isLoading){
