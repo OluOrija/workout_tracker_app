@@ -1,0 +1,39 @@
+type InsertSetResponse {
+  insertedId: String
+}
+
+input NewSet {
+  username: String!
+  exercise: String!
+  reps: Int!
+  weight: Float
+}
+
+type Mutation {
+  insertSet(
+    document: NewSet!
+    collection: String!
+    dataSource: String!
+    database: String!
+  ): InsertSetResponse
+    @rest(
+      method: POST
+      endpoint: "https://eu-west-2.aws.data.mongodb-api.com/app/data-mxdjpma/endpoint/data/v1/action/insertOne"
+      headers: [
+        { name: "accept", value: "application/json" }
+        { name: "access-control-request-headers", value: "*" }
+        {
+          name: "apikey"
+          value: "hoIsaLbFGdWLLdQc40pZ6wajnj9G60k5uHeG1e610UAkhSj6iQIJrZkAVB7qlrzj"
+        }
+      ]
+      # postbody: """
+      # {
+      #   "collection": "sets",
+      #   "dataSource": "Cluster1",
+      #   "database": "workouts",
+      #   "document": "{{ .Get "document" }}"
+      # }
+      # """
+    )
+}

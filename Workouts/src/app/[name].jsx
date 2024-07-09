@@ -1,103 +1,122 @@
-import { ActivityIndicator, View, Text, StyleSheet, ScrollView } from 'react-native';
-import { useLocalSearchParams } from 'expo-router';
-import { Stack } from 'expo-router'
-import { useState } from 'react'
-import { gql } from 'graphql-request';
-import { useQuery } from '@tanstack/react-query';
-import client from '../graphqlClient';
-import NewSetInput from '../components/NewSetInput';
-
-const exercisesQuery = gql`
+import {
+    View,
+    Text,
+    StyleSheet,
+    ScrollView,
+    ActivityIndicator,
+  } from 'react-native';
+  import { useLocalSearchParams } from 'expo-router';
+  import { Stack } from 'expo-router';
+  import { useState } from 'react';
+  import { gql } from 'graphql-request';
+  import { useQuery } from '@tanstack/react-query';
+  import graphqlClient from '../graphqlClient';
+  import NewSetInput from '../components/NewSetInput';
+  import SetsList from '../components/SetsList';
+  import ProgressGraph from '../components/ProgressGraph';
+  
+  const exerciseQuery = gql`
     query exercises($name: String) {
-        exercises(name: $name) {
-            name
-            muscle
-            instructions
-            equipment
-        }
-    } 
-`;
-
-
-export default function ExerciseDetailsScreen() {
-    const {name} = useLocalSearchParams();
-    const {data, isLoading, error} = useQuery({
-        queryKey: ['exercises', name],
-        queryFn: () => client.request(exercisesQuery, {name}),
-      });
-
+      exercises(name: $name) {
+        name
+        muscle
+        instructions
+        equipment
+      }
+    }
+  `;
+  
+  export default function ExerciseDetailsScreen() {
+    const { name } = useLocalSearchParams();
+    const { data, isLoading, error } = useQuery({
+      queryKey: ['exercises', name],
+      queryFn: () => graphqlClient.request(exerciseQuery, { name }),
+    });
+  
     const [isInstructionExpanded, setIsInstructionExpanded] = useState(false);
-
-    if(isLoading){
-        return <ActivityIndicator/>
+  
+    if (isLoading) {
+      return <ActivityIndicator />;
     }
-    
-    if(error){
-    console.log(error);
-    return <Text>Error: {error.message}</Text>;
+  
+    if (error) {
+      return <Text>Failed to fetch data</Text>;
     }
-
+  
     const exercise = data.exercises[0];
-
+  
     if (!exercise) {
-        return <Text>Exercise not found</Text>
+      return <Text>Exercise not found</Text>;
     }
-
+  
     return (
-        <ScrollView contentContainerStyle={styles.container}>
-            <Stack.Screen options={{ title: exercise.name }} />
-
-            <View style={styles.panel}>
+      <View style={styles.container}>
+        <Stack.Screen options={{ title: exercise.name }} />
+  
+        <SetsList
+          exerciseName={exercise.name}
+          ListHeaderComponent={() => (
+            <View style={{ gap: 5 }}>
+              <View style={styles.panel}>
                 <Text style={styles.exerciseName}>{exercise.name}</Text>
-
+  
                 <Text style={styles.exerciseSubtitle}>
-                    <Text style={styles.subValue}>{exercise.muscle}</Text> |{' '}
-                    <Text style={styles.subValue}>{exercise.equipment}</Text>
+                  <Text style={styles.subValue}>{exercise.muscle}</Text> |{' '}
+                  <Text style={styles.subValue}>{exercise.equipment}</Text>
                 </Text>
+              </View>
+  
+              <View style={styles.panel}>
+                <Text
+                  style={styles.instructions}
+                  numberOfLines={isInstructionExpanded ? 0 : 3}
+                >
+                  {exercise.instructions}
+                </Text>
+                <Text
+                  onPress={() => setIsInstructionExpanded(!isInstructionExpanded)}
+                  style={styles.seeMore}
+                >
+                  {isInstructionExpanded ? 'See less' : 'See more'}
+                </Text>
+              </View>
+  
+              <NewSetInput exerciseName={exercise.name} />
             </View>
-
-            <View style={styles.panel}>
-                <Text style={styles.instructions} numberOfLines={isInstructionExpanded ? 0 : 3}>
-                    {exercise.instructions}
-                </Text>
-                <Text onPress={() => setIsInstructionExpanded(!isInstructionExpanded)} style={styles.seeMore}>
-                    {isInstructionExpanded ? 'See less' : 'See more'}
-                </Text>
-            </View>
-
-            <NewSetInput/>
-        </ScrollView>
+          )}
+        />
+      </View>
     );
-}
-
-const styles = StyleSheet.create({
+  }
+  
+  const styles = StyleSheet.create({
     container: {
-        padding: 10,
-        gap: 10,
-    },
-    exerciseName: {
-        fontSize: 20,
-        fontWeight: '500'
-    },
-    exerciseSubtitle: {
-        color: 'dimgray'
-    },
-    subValue: {
-        textTransform: 'capitalize',
-    },
-    instructions: {
-        fontSide: 16,
-        lineHeight: 22,
+      padding: 10,
     },
     panel: {
-        backgroundColor: 'white',
-        padding: 10,
-        borderRadius: 5,
+      backgroundColor: 'white',
+      padding: 10,
+      borderRadius: 5,
+    },
+    exerciseName: {
+      fontSize: 20,
+      fontWeight: '500',
+    },
+    exerciseSubtitle: {
+      color: 'dimgray',
+    },
+    subValue: {
+      textTransform: 'capitalize',
+    },
+    instructions: {
+      fontSize: 16,
+      lineHeight: 22,
     },
     seeMore: {
-        alignSelf: 'center',
-        padding: 10,
-        fontWeight: '600',
-        color: 'gray'
-    }
-})
+      alignSelf: 'center',
+      padding: 5,
+      fontWeight: '600',
+      color: 'gray',
+    },
+  });
+  
